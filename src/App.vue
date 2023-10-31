@@ -14,11 +14,15 @@ const mass = ref([
   { id: 9, name: "Name 9" }
 ])
 const label = ref("Выбор имен")
+const newMass = ref([])
 </script>
 
 <template>
   <CheckboxList 
     :label="label"
     :massProps="mass"
+    @update:massProps="newMass = $event.value"
   />
+  <p v-if="newMass.length" style="position: absolute; top: 10px;">Выбрано - {{ newMass }}</p>
+
 </template>
