@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 
 const props = defineProps({
   massProps: Object,
@@ -24,6 +24,13 @@ const selectAll = function() {
   }
 }
 
+const setLabel = computed(() => {
+  if (newMass.value.length) {
+    return newMass.value.reduce((cur, item) => cur += item.name + ";", "")
+  }
+  return props.label
+})
+
 watch(newMass, () => {
   isSelectedAll.value = (newMass.value.length === props.massProps.length)
 })
@@ -39,7 +46,7 @@ watch(isShowModal, function() {
 <div>
   <div class="checkbox">
     <div class="checkbox-main" @click="changeShowModal">
-      <label class="checkbox-main__label">{{ props.label }}</label>
+      <label class="checkbox-main__label">{{ setLabel }}</label>
       <svg 
         class="icon-arrow" 
         :class="{'rotation-180deg' : !isShowModal}"
